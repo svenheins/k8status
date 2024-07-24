@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: k8status-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx  # Adjust based on your ingress controller
+spec:
+  rules:
+  - host: ${DEPLOY_URL}  # Replace with your domain
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: k8status
+            port: 
+              number: 80
