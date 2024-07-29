@@ -50,6 +50,9 @@ spec:
         image: ${REGISTRY}/${IMAGE_NAME}:${VERSION}
         ports:
         - containerPort: 8080
+        envFrom:
+        - configMapRef:
+            name: proxy-config
 ---
 apiVersion: v1
 kind: Service
