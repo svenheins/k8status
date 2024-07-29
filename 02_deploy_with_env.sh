@@ -12,7 +12,8 @@ case "$choice" in
     echo "Proceeding..."
     # Add your command here
     echo "kubectl apply -f deployment.yaml"
-    envsubst < deployment.yaml | kubectl apply -f -
+    envsubst < deployment.yaml | kubectl apply -f - \
+        && envsubst < ingress.yaml | kubectl apply -f -
     ;;
   n|N ) 
     echo "Aborting..."
