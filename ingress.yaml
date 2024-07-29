@@ -12,10 +12,10 @@ spec:
     - ${TLS_HOSTNAME}
     secretName: certs-secret
   rules:
-  - host: ${TLS_HOSTNAME}
+  - host: ${DEPLOY_URL}
     http:
       paths:
-      - path: /${PATH_PREFIX}  # Add this if you need a specific path prefix
+      - path: /
         pathType: Prefix
         backend:
           service:
