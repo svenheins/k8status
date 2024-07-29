@@ -12,8 +12,7 @@ case "$choice" in
     echo "Proceeding..."
     # Add your command here
     echo "kubectl delete -f deployment.yaml && kubectl delete -f ingress.yaml"
-    envsubst < deployment.yaml | kubectl delete -f - \
-      && envsubst < ingress.yaml | kubectl delete -f -
+    envsubst < deployment.yaml | kubectl delete -f -
     ;;
   n|N ) 
     echo "Aborting..."
