@@ -2,15 +2,20 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: k8status-ingress
-  namespace: ${DEPLOY_NAMESPACE}  # Add this line to match your Service's namespace
+  namespace: ${DEPLOY_NAMESPACE}
   annotations:
-    kubernetes.io/ingress.class: nginx  # Adjust based on your ingress controller
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"  # Redirect HTTP to HTTPS
 spec:
+  tls:
+  - hosts:
+    - ${TLS_HOSTNAME}
+    secretName: certs-secret
   rules:
-  - host: ${DEPLOY_URL}  # Replace with your domain
+  - host: ${TLS_HOSTNAME}
     http:
       paths:
-      - path: /
+      - path: /${PATH_PREFIX}  # Add this if you need a specific path prefix
         pathType: Prefix
         backend:
           service:
