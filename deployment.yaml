@@ -53,11 +53,17 @@ spec:
         envFrom:
         - configMapRef:
             name: proxy-config
+
+    dnsPolicy: ClusterFirst
+    restartPolicy: Always
+    schedulerName: default-scheduler
+    securityContext: {}
+    terminationGracePeriodSeconds: 30
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: k8status
+  name: k8status-service
   namespace: ${DEPLOY_NAMESPACE}
 spec:
   selector:
@@ -72,14 +78,14 @@ metadata:
   name: k8status-ingress
   namespace: ${DEPLOY_NAMESPACE}
   annotations:
-    kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/backend-protocol: HTTP
     nginx.ingress.kubernetes.io/proxy-body-size: "0"
 spec:
-  tls:
-  - hosts:
-    - ${DEPLOY_URL}
-    secretName: certs-secret
+  ingressClassName: nginx
+#  tls:
+#  - hosts:
+#    - ${DEPLOY_URL}
+#    secretName: certs-secret
   rules:
   - host: ${DEPLOY_URL}
     http:
@@ -88,6 +94,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: k8status
+            name: k8status-service
             port:
               number: 8080
